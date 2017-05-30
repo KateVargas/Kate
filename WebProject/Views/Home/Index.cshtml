@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebProject.Models.State>
+
+@{
+    ViewBag.Title = "Principal";
+}
+<br/><br /><br />
+@*<div class="dropdown">
+    <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+        Departamento...
+        <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        @foreach (var item in Model)
+        {
+            <li><a href="#">@item.Name</a></li>
+        }
+    </ul>
+</div>*@
+
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-success dropdown-toggle">Departamento... <span class="caret"></span>
+    </button>
+    <ul class="dropdown-menu dropStates">
+        @foreach (var item in Model)
+        {
+            <li><a href="#" onclick="GetCitiesByStateId(@item.Id)">@item.Name</a></li>
+        }
+    </ul>
+</div>
+<!-- /btn-group -->
+<div class="btn-group">
+    <button data-toggle="dropdown" class="btn btn-info dropdown-toggle">
+        Ciudades <span class="caret"></span>
+        <ul class="dropdown-menu" id="states">
+            </ul>
+</button>
+</div>
+<script type="text/javascript">
+    var states = {};
+
+    function GetCitiesByStateId(val) {
+        $.ajax({
+            type: "POST",
+            url: "/Home/GetAllCitiesByStateId?stateId="+val, // the URL of the controller action method
+            data: val, // optional data
+            success: function(result) {
+                states = result;
+                console.log(result)
+            },                
+            error : function(req, status, error) {
+                // do something with error   
+            }            
+        });
+        //console.log(c);
+    }
+
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
